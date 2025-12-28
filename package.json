@@ -1,5 +1,19 @@
 {
   "name": "idea-site",
   "private": true,
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "b": "pnpm --filter @idea-site/backend",
+    "f": "pnpm --filter @idea-site/client",
+    "types": "concurrently \"pnpm b types\" \"pnpm f types\" ",
+    "prettify": "pnpm -r --parralel prettify "
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3",
+    "prettier": "^3.7.4"
+  }
 }
