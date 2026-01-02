@@ -7,6 +7,7 @@
     "dev": "ts-node-dev --rs ./src/index.ts",
     "build": "rimraf ./dist && tsc --build ./tsconfig.json",
     "lint": "eslint .",
+    "lint-fix": "eslint --fix",
     "types": "tsc --noEmit --project ./tsconfig.json",
     "start": "node ./dist/index.js",
     "prettify": "prettier --log-level warn --cache --write \"{src/**/*,*}.{ts,tsx,js,json,yml,scss}\" \"!**/{node_modules,dist}/**/*\""
@@ -19,7 +20,6 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3"
-
   },
   "dependencies": {
     "@trpc/server": "^11.8.1",
