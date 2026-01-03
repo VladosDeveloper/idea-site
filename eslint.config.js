@@ -1,7 +1,5 @@
 import pluginJs from '@eslint/js'
-import eslintConfigPrettier from 'eslint-config-prettier'
 import pluginImport from 'eslint-plugin-import'
-import prettierPlugin from 'eslint-plugin-prettier'
 import eslintReact from 'eslint-plugin-react'
 import pluginReact from 'eslint-plugin-react'
 import tsParser from '@typescript-eslint/parser'
@@ -19,10 +17,9 @@ export default [
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      // react: eslintReact,
+      react: eslintReact,
       // 'react-hooks': eslintReactHooks,
       // 'react-refresh': eslintReactRefresh,
-      prettier: prettierPlugin,
       import: pluginImport,
     },
   },
@@ -41,8 +38,6 @@ export default [
   pluginReact.configs.flat.recommended,
   {
     rules: {
-      ...prettierPlugin.configs.recommended.rules,
-      ...eslintConfigPrettier.rules,
       'react/react-in-jsx-scope': 'off',
       'import/order': [
         'error',

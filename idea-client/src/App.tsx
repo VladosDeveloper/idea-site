@@ -1,14 +1,18 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { getAllIdeasRoute, getViewIdeaRoute } from './lib/routes.ts'
 import { TrpcProvider } from './lib/trpc'
-import { AllIdeasPage } from './pages/AllIdeasPage/AllIDeasPage.tsx'
+import { ViewAllIdeasPage } from './pages/AllIdeasPage'
+import { ViewIdeaPage } from './pages/ViewIdeaPage'
 
 export const App = () => {
-  if (Math.random()) {
-    console.info('saa')
-  }
-
   return (
     <TrpcProvider>
-      <AllIdeasPage />
+      <BrowserRouter>
+        <Routes>
+          <Route path={getAllIdeasRoute()} element={<ViewAllIdeasPage />} />
+          <Route path={getViewIdeaRoute({ ideaNick: ':ideaNick' })} element={<ViewIdeaPage />} />
+        </Routes>
+      </BrowserRouter>
     </TrpcProvider>
   )
 }

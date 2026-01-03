@@ -13,12 +13,13 @@
     "prettify": "prettier --log-level warn --cache --write \"{src/**/*,*}.{ts,tsx,js,json,yml,scss}\" \"!**/{node_modules,dist}/**/*\" "
   },
   "dependencies": {
+    "@idea-site/backend": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
     "@trpc/client": "^11.8.1",
     "@trpc/react-query": "^11.8.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "@idea-site/backend": "workspace:*"
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
