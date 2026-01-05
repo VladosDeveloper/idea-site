@@ -7,6 +7,7 @@
     "b": "pnpm --filter @idea-site/backend",
     "f": "pnpm --filter @idea-site/client",
     "types": "concurrently \"pnpm b types\" \"pnpm f types\" ",
+    "dev": "concurrently \"pnpm b dev\" \"pnpm f dev\" ",
     "prettify": "pnpm -r --parralel prettify ",
     "prepare": "husky"
   },
