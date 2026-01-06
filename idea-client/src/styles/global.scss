@@ -1,0 +1,29 @@
+@use '../../node_modules/reset-css/sass/reset';
+@use './vars' as var;
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+body {
+  font-family: var.$defaultFontFamily;
+  font-size: var.$defaultFontSize;
+  background: var.$defaultBackgroundColor;
+  color: var.$defaultTextColor;
+  line-height: var.$defaultLineHeight;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}

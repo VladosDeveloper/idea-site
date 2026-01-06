@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom'
 import type { ViewIdeaRouteParams } from '../../lib/routes.ts'
 import { trpc } from '../../lib/trpc.tsx'
+import styles from './index.module.scss'
 
 export const ViewIdeaPage = () => {
   const { ideaNick } = useParams() as ViewIdeaRouteParams
@@ -21,9 +22,9 @@ export const ViewIdeaPage = () => {
 
   return (
     <div>
-      <h2>{data?.idea?.nick}</h2>
-      <p>{data?.idea?.description}</p>
-      <div dangerouslySetInnerHTML={{ __html: data?.idea?.text }} />
+      <h1 className={styles.title}>{data.idea.name}</h1>
+      <p className={styles.description}>{data.idea.description}</p>
+      <div className={styles.text} dangerouslySetInnerHTML={{ __html: data.idea.text }} />
     </div>
   )
 }
