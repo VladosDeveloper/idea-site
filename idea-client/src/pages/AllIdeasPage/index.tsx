@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { getViewIdeaRoute } from '../../lib/routes.ts'
 import { trpc } from '../../lib/trpc.tsx'
 import styles from './index.module.scss'
+import { Segment } from '@/components/segment'
+import { getViewIdeaRoute } from '@/lib/routes.ts'
 
 export const ViewAllIdeasPage = () => {
   const { data, error, isLoading, isFetching, isError } = trpc.getIdeas.useQuery()
@@ -15,20 +16,22 @@ export const ViewAllIdeasPage = () => {
   }
 
   return (
-    <div>
-      <h1 className={styles.title}>All Ideas</h1>
+    <Segment title={'All Ideas'}>
       <div className={styles.ideas}>
         {data?.ideas.map((idea) => (
           <div className={styles.idea} key={idea.nick}>
-            <h2 className={styles.ideaName}>
-              <Link className={styles.ideaLink} to={getViewIdeaRoute({ ideaNick: idea.nick })}>
-                {idea.name}
-              </Link>
-            </h2>
-            <p className={styles.ideaDescription}>{idea.description}</p>
+            <Segment
+              title={
+                <Link className={styles.ideaLink} to={getViewIdeaRoute({ ideaNick: idea.nick })}>
+                  {idea.name}
+                </Link>
+              }
+              size={2}
+              description={idea.description}
+            />
           </div>
         ))}
       </div>
-    </div>
+    </Segment>
   )
 }
