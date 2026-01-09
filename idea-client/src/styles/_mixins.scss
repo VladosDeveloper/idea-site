@@ -3,6 +3,7 @@
 @mixin link($color: var.$blue, $hoverColor: var.$red) {
   color: $color;
   transition: color 200ms ease;
+
   &:hover,
   &:active {
     color: $hoverColor;

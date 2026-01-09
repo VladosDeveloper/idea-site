@@ -19,7 +19,7 @@ export default [
   },
 
   {
-    ignores: ['dist', 'node_modules', 'coverage', 'eslint.config.js'],
+    ignores: ['dist', 'node_modules', 'coverage', 'eslint.config.js', 'stylelint.config.js'],
   },
 
   //   🔹 Специальные настройки для Vite-конфига

@@ -39,7 +39,7 @@ $breakpoint: '<=900px';
         }
 
         .link {
-          @include mixin.link();
+          @include mixin.link;
         }
       }
     }
