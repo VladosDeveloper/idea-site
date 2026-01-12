@@ -1,8 +1,22 @@
 import { useFormik } from 'formik'
+import { withZodSchema } from 'formik-validator-zod'
+import { z } from 'zod'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 
-export type SubmitFormData = Record<string, any>
+// export type SubmitFormData = Record<string, any>
+
+const validationSchema = z.object({
+  name: z.string({ message: 'Name is required' }).min(1),
+  nick: z
+    .string({ message: 'Nick is required' })
+    .min(1)
+    .regex(/^[a-z0-9-]+$/, { message: 'Nick may contain only lowercase letters, numbers and dashes' }),
+  description: z.string({ message: 'Description is required' }).min(1),
+  text: z.string({ message: 'Text is required' }).min(100, { message: 'Text should be at least 100 characters long' }),
+})
+
+export type SubmitFormData = z.infer<typeof validationSchema>
 
 export const NewIdeaPage = () => {
   const formik = useFormik<SubmitFormData>({
@@ -12,26 +26,9 @@ export const NewIdeaPage = () => {
       description: '',
       text: '',
     },
-    validate: (values) => {
-      const errors: Partial<typeof values> = {}
-      if (!values.name) {
-        errors.name = 'Name is required'
-      }
-      if (!values.nick) {
-        errors.nick = 'Nick is required'
-      } else if (!values.nick.match(/^[a-z0-9-]+$/)) {
-        errors.nick = 'Nick may contain only lowercase letters, numbers and dashes'
-      }
-      if (!values.description) {
-        errors.description = 'Description is required'
-      }
-      if (!values.text) {
-        errors.text = 'Text is required'
-      } else if (values.text.length < 100) {
-        errors.text = 'Text should be at least 100 characters long'
-      }
-      return errors
-    },
+    validate: withZodSchema(validationSchema) as unknown as (
+      values: SubmitFormData
+    ) => Partial<Record<keyof SubmitFormData, string>>,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2))
     },
