@@ -1,4 +1,4 @@
-export const getAllIdeasRoute = () => '/ideas'
+export const getAllIdeasRoute = () => '/'
 
 const getRouteParams = <T extends Record<string, boolean>>(obj: T) => {
   return Object.keys(obj).reduce((acc, key) => ({ ...acc, [key]: `:${key}` }), {}) as Record<keyof T, string>
