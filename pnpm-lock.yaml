@@ -77,6 +77,9 @@ importers:
       express:
         specifier: ^5.2.1
         version: 5.2.1
+      glob:
+        specifier: ^13.0.0
+        version: 13.0.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21

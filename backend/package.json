@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --rs ./src/index.ts",
+    "generate:trpc": "ts-node ./src/scripts/generate-trpc-routes.ts && eslint src/router/index.ts --fix",
     "build": "rimraf ./dist && tsc --build ./tsconfig.json",
     "lint": "eslint .",
     "lint-fix": "eslint --fix",
@@ -26,6 +27,7 @@
     "@trpc/server": "^11.8.1",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "glob": "^13.0.0",
     "lodash": "^4.17.21",
     "zod": "^4.3.5"
   }
