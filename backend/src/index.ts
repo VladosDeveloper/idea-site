@@ -1,22 +1,13 @@
-import * as trpcExpress from '@trpc/server/adapters/express'
 import cors from 'cors'
 import express from 'express'
-import { trpcRouter } from './trpc'
+import { applyTrpcToExpressApp } from './lib/tRPCInstance'
+import { trpcRouter } from './router'
 
 const expressApp = express()
 
 expressApp.use(cors())
 
-expressApp.use(
-  '/trpc',
-  trpcExpress.createExpressMiddleware({
-    router: trpcRouter,
-  })
-)
-
-expressApp.get('/ping', (req, res) => {
-  res.send('Pong!')
-})
+applyTrpcToExpressApp(expressApp, trpcRouter)
 
 expressApp.listen(3000, () => {
   console.info('Server started on port http://localhost:3000')
