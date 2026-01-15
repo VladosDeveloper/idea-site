@@ -3,8 +3,7 @@ import { withZodSchema } from 'formik-validator-zod'
 import { z } from 'zod'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
-
-// export type SubmitFormData = Record<string, any>
+import { trpc } from '@/lib/trpc.tsx'
 
 const validationSchema = z.object({
   name: z.string({ message: 'Name is required' }).min(1),
@@ -19,6 +18,8 @@ const validationSchema = z.object({
 export type SubmitFormData = z.infer<typeof validationSchema>
 
 export const NewIdeaPage = () => {
+  const createIdea = trpc.createIdea.useMutation()
+
   const formik = useFormik<SubmitFormData>({
     initialValues: {
       name: '',
@@ -29,8 +30,8 @@ export const NewIdeaPage = () => {
     validate: withZodSchema(validationSchema) as unknown as (
       values: SubmitFormData
     ) => Partial<Record<keyof SubmitFormData, string>>,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+    onSubmit: async (values) => {
+      await createIdea.mutateAsync(values)
     },
   })
 
