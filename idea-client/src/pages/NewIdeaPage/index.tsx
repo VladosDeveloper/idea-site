@@ -1,3 +1,4 @@
+import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/createIdea/input'
 import { useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
 import { z } from 'zod'
@@ -5,17 +6,7 @@ import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { trpc } from '@/lib/trpc.tsx'
 
-const validationSchema = z.object({
-  name: z.string({ message: 'Name is required' }).min(1),
-  nick: z
-    .string({ message: 'Nick is required' })
-    .min(1)
-    .regex(/^[a-z0-9-]+$/, { message: 'Nick may contain only lowercase letters, numbers and dashes' }),
-  description: z.string({ message: 'Description is required' }).min(1),
-  text: z.string({ message: 'Text is required' }).min(100, { message: 'Text should be at least 100 characters long' }),
-})
-
-export type SubmitFormData = z.infer<typeof validationSchema>
+export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
 
 export const NewIdeaPage = () => {
   const createIdea = trpc.createIdea.useMutation()
@@ -27,7 +18,7 @@ export const NewIdeaPage = () => {
       description: '',
       text: '',
     },
-    validate: withZodSchema(validationSchema) as unknown as (
+    validate: withZodSchema(zCreateIdeaTrpcInput) as unknown as (
       values: SubmitFormData
     ) => Partial<Record<keyof SubmitFormData, string>>,
     onSubmit: async (values) => {

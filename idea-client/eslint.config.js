@@ -15,6 +15,18 @@ export default [
     rules: {
       'react/react-in-jsx-scope': 'off', // React 17+ не требует импортировать React
       //   'jsx-a11y/anchor-is-valid': 'off',
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@idea-site/backend/**', '!@idea-site/backend/**/', '!@idea-site/backend/**/input'],
+              allowTypeImports: true,
+              message: 'Only types and input schemas are allowed to be imported from backend workspace',
+            },
+          ],
+        },
+      ],
     },
   },
 
