@@ -1,6 +1,7 @@
 import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/createIdea/input'
 import { useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
+import { Activity, useState } from 'react'
 import { z } from 'zod'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
@@ -9,6 +10,8 @@ import { trpc } from '@/lib/trpc.tsx'
 export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
 
 export const NewIdeaPage = () => {
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false)
+  const [submittingError, setSubmittingError] = useState<string | null>(null)
   const createIdea = trpc.createIdea.useMutation()
 
   const formik = useFormik<SubmitFormData>({
@@ -22,7 +25,17 @@ export const NewIdeaPage = () => {
       values: SubmitFormData
     ) => Partial<Record<keyof SubmitFormData, string>>,
     onSubmit: async (values) => {
-      await createIdea.mutateAsync(values)
+      try {
+        await createIdea.mutateAsync(values)
+        formik.resetForm()
+        setSuccessMessageVisible(true)
+        setTimeout(() => {
+          setSuccessMessageVisible(false)
+        }, 3000)
+      } catch (e: any) {
+        setSubmittingError(e.message)
+        setTimeout(() => setSubmittingError(null), 3000)
+      }
     },
   })
 
@@ -45,7 +58,17 @@ export const NewIdeaPage = () => {
           formik={formik}
         />
 
-        <button type="submit">Create Idea</button>
+        <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
+          <p style={{ color: 'green' }}>Idea was successfully created</p>
+        </Activity>
+
+        <Activity mode={!!submittingError ? 'visible' : 'hidden'}>
+          <p style={{ color: 'red' }}>{submittingError}</p>
+        </Activity>
+
+        <button type="submit" disabled={formik.isSubmitting}>
+          {formik.isSubmitting ? 'Submitting...' : 'Create Idea'}
+        </button>
       </form>
     </Segment>
   )

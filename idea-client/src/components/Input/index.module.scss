@@ -1,0 +1,32 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.field {
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  .label {
+    font-weight: bold;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .input {
+    @include baseInput;
+    max-width: 200px;
+  }
+
+  .textarea {
+    @include baseInput;
+    min-height: 150px;
+    width: 100%;
+    max-width: none;
+    resize: vertical;
+  }
+
+  .error {
+    margin-top: 2px;
+    color: $red;
+  }
+}

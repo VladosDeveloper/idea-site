@@ -27,6 +27,7 @@ export default [
           ],
         },
       ],
+      'no-extra-boolean-cast': 'off',
     },
   },
 
