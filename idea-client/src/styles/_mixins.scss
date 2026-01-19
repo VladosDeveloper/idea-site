@@ -1,6 +1,6 @@
-@use './vars' as var;
+@use './vars' as *;
 
-@mixin link($color: var.$blue, $hoverColor: var.$red) {
+@mixin link($color: $blue, $hoverColor: $red) {
   color: $color;
   transition: color 200ms ease;
 
@@ -24,17 +24,17 @@
 @mixin baseInput {
   display: block;
   padding: 7px;
-  border: 1px solid var.$black;
-  border-radius: 3px;
-  background-color: var.$white;
+  border: 1px solid $black;
+  border-radius: $borderRadiusSmall;
+  background-color: $white;
   outline: none;
   width: 100%;
 
   &:focus {
-    border-color: var.$blue;
+    border-color: $blue;
   }
 
   &.invalid {
-    border-color: var.$red;
+    border-color: $red;
   }
 }

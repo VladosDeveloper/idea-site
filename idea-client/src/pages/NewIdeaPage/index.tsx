@@ -5,6 +5,7 @@ import { Activity, useState } from 'react'
 import { z } from 'zod'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
+import { Toaster } from '@/components/toaster'
 import { trpc } from '@/lib/trpc.tsx'
 
 export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
@@ -59,11 +60,15 @@ export const NewIdeaPage = () => {
         />
 
         <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
-          <p style={{ color: 'green' }}>Idea was successfully created</p>
+          <Toaster color={'green'}>
+            <p>Idea was successfully created</p>
+          </Toaster>
         </Activity>
 
         <Activity mode={!!submittingError ? 'visible' : 'hidden'}>
-          <p style={{ color: 'red' }}>{submittingError}</p>
+          <Toaster color={'red'}>
+            <p>{submittingError}</p>
+          </Toaster>
         </Activity>
 
         <button type="submit" disabled={formik.isSubmitting}>

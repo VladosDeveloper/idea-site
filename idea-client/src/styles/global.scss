@@ -1,5 +1,5 @@
 @use '../../node_modules/reset-css/sass/reset';
-@use './vars' as var;
+@use './vars' as *;
 
 html,
 body,
@@ -11,11 +11,11 @@ body,
 }
 
 body {
-  font-family: var.$defaultFontFamily;
-  font-size: var.$defaultFontSize;
-  background: var.$defaultBackgroundColor;
-  color: var.$defaultTextColor;
-  line-height: var.$defaultLineHeight;
+  font-family: $defaultFontFamily;
+  font-size: $defaultFontSize;
+  background: $defaultBackgroundColor;
+  color: $defaultTextColor;
+  line-height: $defaultLineHeight;
 }
 
 *,

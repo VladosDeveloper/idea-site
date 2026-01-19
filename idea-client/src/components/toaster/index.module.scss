@@ -1,0 +1,52 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.toastSlide {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 14px 20px;
+  border-radius: 6px;
+  z-index: 1000;
+
+  &.red {
+    background-color: #ffd1d1;
+    color: #631717;
+  }
+
+  &.green {
+    background-color: #d7ffd7;
+    color: #2d6d2d;
+  }
+
+  // Анимация слайда
+  animation: toast-slide-in 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+
+  &.toast-exit {
+    animation: toast-slide-in 0.4s ease forwards;
+  }
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(100%) translateY(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%) translateY(0);
+    opacity: 0;
+  }
+}
