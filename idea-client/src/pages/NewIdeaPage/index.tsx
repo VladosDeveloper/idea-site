@@ -3,6 +3,8 @@ import { useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
 import { Activity, useState } from 'react'
 import { z } from 'zod'
+import { Button } from '@/components/Button'
+import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
@@ -43,37 +45,37 @@ export const NewIdeaPage = () => {
   return (
     <Segment title="New Idea">
       <form onSubmit={formik.handleSubmit}>
-        <Input onChange={formik.handleChange} inputTitle="Name" inputValue={formik.values.name} formik={formik} />
-        <Input onChange={formik.handleChange} inputTitle="Nick" inputValue={formik.values.nick} formik={formik} />
-        <Input
-          onChange={formik.handleChange}
-          inputTitle="Description"
-          inputValue={formik.values.description}
-          formik={formik}
-        />
-        <Input
-          onChange={formik.handleChange}
-          inputTitle="Text"
-          inputValue={formik.values.text}
-          as="textarea"
-          formik={formik}
-        />
+        <FormItems>
+          <Input onChange={formik.handleChange} inputTitle="Name" inputValue={formik.values.name} formik={formik} />
+          <Input onChange={formik.handleChange} inputTitle="Nick" inputValue={formik.values.nick} formik={formik} />
+          <Input
+            onChange={formik.handleChange}
+            inputTitle="Description"
+            inputValue={formik.values.description}
+            formik={formik}
+          />
+          <Input
+            onChange={formik.handleChange}
+            inputTitle="Text"
+            inputValue={formik.values.text}
+            as="textarea"
+            formik={formik}
+          />
 
-        <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
-          <Toaster color={'green'}>
-            <p>Idea was successfully created</p>
-          </Toaster>
-        </Activity>
+          <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
+            <Toaster color={'green'}>
+              <p>Idea was successfully created</p>
+            </Toaster>
+          </Activity>
 
-        <Activity mode={!!submittingError ? 'visible' : 'hidden'}>
-          <Toaster color={'red'}>
-            <p>{submittingError}</p>
-          </Toaster>
-        </Activity>
+          <Activity mode={!!submittingError ? 'visible' : 'hidden'}>
+            <Toaster color={'red'}>
+              <p>{submittingError}</p>
+            </Toaster>
+          </Activity>
 
-        <button type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Submitting...' : 'Create Idea'}
-        </button>
+          <Button loading={formik.isSubmitting}>Create Idea</Button>
+        </FormItems>
       </form>
     </Segment>
   )
