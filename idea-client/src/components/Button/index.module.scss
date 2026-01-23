@@ -10,6 +10,8 @@
   border-radius: $borderRadiusSmall;
   cursor: pointer;
   user-select: none;
+  max-width: 200px;
+  transition: 0.15s linear;
 
   &:hover {
     background-color: #21b821;
