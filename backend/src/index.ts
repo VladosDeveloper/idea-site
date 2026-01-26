@@ -1,14 +1,26 @@
 import cors from 'cors'
 import express from 'express'
+import { AppContext, createAppContext } from './lib/ctx'
 import { applyTrpcToExpressApp } from './lib/tRPCInstance'
 import { trpcRouter } from './router'
 
-const expressApp = express()
+let ctx: AppContext | null = null
 
-expressApp.use(cors())
+void (async () => {
+  try {
+    ctx = createAppContext()
 
-applyTrpcToExpressApp(expressApp, trpcRouter)
+    const expressApp = express()
 
-expressApp.listen(3000, () => {
-  console.info('Server started on port http://localhost:3000')
-})
+    expressApp.use(cors())
+
+    applyTrpcToExpressApp(expressApp, ctx, trpcRouter)
+
+    expressApp.listen(3000, () => {
+      console.info('Server started on port http://localhost:3000')
+    })
+  } catch (err) {
+    console.error(err)
+    await ctx?.stop()
+  }
+})()
