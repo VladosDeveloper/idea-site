@@ -1,6 +1,6 @@
 import cors from 'cors'
 import express from 'express'
-import { AppContext, createAppContext } from './lib/ctx'
+import { type AppContext, createAppContext } from './lib/ctx'
 import { applyTrpcToExpressApp } from './lib/tRPCInstance'
 import { trpcRouter } from './router'
 
