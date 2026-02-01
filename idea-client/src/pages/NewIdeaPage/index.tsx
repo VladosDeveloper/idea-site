@@ -1,8 +1,8 @@
+import { Activity, useState } from 'react'
 import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/createIdea/input'
 import { useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
-import { Activity, useState } from 'react'
-import { z } from 'zod'
+import { type z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
@@ -46,21 +46,10 @@ export const NewIdeaPage = () => {
     <Segment title="New Idea">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
-          <Input onChange={formik.handleChange} inputTitle="Name" inputValue={formik.values.name} formik={formik} />
-          <Input onChange={formik.handleChange} inputTitle="Nick" inputValue={formik.values.nick} formik={formik} />
-          <Input
-            onChange={formik.handleChange}
-            inputTitle="Description"
-            inputValue={formik.values.description}
-            formik={formik}
-          />
-          <Input
-            onChange={formik.handleChange}
-            inputTitle="Text"
-            inputValue={formik.values.text}
-            as="textarea"
-            formik={formik}
-          />
+          <Input label="name" inputTitle="Name" formik={formik} />
+          <Input label="nick" inputTitle="Nick" formik={formik} />
+          <Input label="description" inputTitle="Description" formik={formik} />
+          <Input label="text" inputTitle="Text" as="textarea" formik={formik} />
 
           <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
             <Toaster color={'green'}>

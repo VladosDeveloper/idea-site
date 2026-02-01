@@ -163,7 +163,6 @@ export default [
       'prefer-const': 'error',
       'no-var': 'error',
       'object-shorthand': 'error',
-      'arrow-body-style': ['error', 'as-needed'],
 
       // === Стилевые правила ===
       quotes: ['error', 'single', { avoidEscape: true }],

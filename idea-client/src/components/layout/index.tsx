@@ -10,6 +10,8 @@ type IPath = {
 const paths: IPath[] = [
   { to: routes.getAllIdeasRoute(), text: 'All Ideas' },
   { to: routes.createNewIdeaRoute(), text: 'Add Idea' },
+  { to: routes.getSignUpRoute(), text: 'Sign Up' },
+  { to: routes.getSignInRoute(), text: 'Sign In' },
 ]
 
 export const Layout = () => {
