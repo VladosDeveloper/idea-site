@@ -1,5 +1,6 @@
 import { trpc } from '../../lib/tRPCInstance'
 import { getPasswordHash } from '../../utils/getPasswordHash'
+import { signJWT } from '../../utils/signJWT'
 import { zSignInTrpcInput } from './input'
 
 export const signInTrpcRoute = trpc.procedure.input(zSignInTrpcInput).mutation(async ({ ctx, input }) => {
@@ -13,5 +14,8 @@ export const signInTrpcRoute = trpc.procedure.input(zSignInTrpcInput).mutation(a
   if (!exUser) {
     throw new Error('User not found')
   }
-  return true
+
+  const token = signJWT(exUser.id)
+
+  return { token }
 })

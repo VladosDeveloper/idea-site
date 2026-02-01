@@ -1,5 +1,6 @@
 import { trpc } from '../../lib/tRPCInstance'
 import { getPasswordHash } from '../../utils/getPasswordHash'
+import { signJWT } from '../../utils/signJWT'
 import { zSignUpTrpcInput } from './input'
 
 export const signUpTrpcRoute = trpc.procedure.input(zSignUpTrpcInput).mutation(async ({ input, ctx }) => {
@@ -13,12 +14,14 @@ export const signUpTrpcRoute = trpc.procedure.input(zSignUpTrpcInput).mutation(a
     throw new Error('User already exists')
   }
 
-  await ctx.prisma.user.create({
+  const user = await ctx.prisma.user.create({
     data: {
       nick: input.nick,
       password: getPasswordHash(input.password),
     },
   })
 
-  return true
+  const token = signJWT(user.id)
+
+  return { token }
 })

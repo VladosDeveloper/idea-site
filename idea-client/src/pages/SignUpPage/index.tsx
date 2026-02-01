@@ -2,12 +2,14 @@ import { Activity, useState } from 'react'
 import { zSignUpTrpcInput } from '@idea-site/backend/src/router/signUp/input'
 import { useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
+import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
+import { getSignInRoute } from '@/lib/routes.ts'
 import { trpc } from '@/lib/trpc.tsx'
 
 const signUpSubmitFormData = zSignUpTrpcInput.extend({ passwordAgain: z.string().min(1) }).superRefine((arg, ctx) => {
@@ -23,9 +25,9 @@ const signUpSubmitFormData = zSignUpTrpcInput.extend({ passwordAgain: z.string()
 type SignUpInputFormData = z.infer<typeof signUpSubmitFormData>
 
 export const SignUpPage = () => {
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false)
   const [submittingError, setSubmittingError] = useState<string | null>(null)
   const signUp = trpc.signUp.useMutation()
+  const navigate = useNavigate()
 
   const formik = useFormik<SignUpInputFormData>({
     initialValues: {
@@ -39,11 +41,7 @@ export const SignUpPage = () => {
     onSubmit: async (values) => {
       try {
         await signUp.mutateAsync(values)
-        formik.resetForm()
-        setSuccessMessageVisible(true)
-        setTimeout(() => {
-          setSuccessMessageVisible(false)
-        }, 3000)
+        void navigate(getSignInRoute())
       } catch (e: any) {
         setSubmittingError(e.message)
         setTimeout(() => setSubmittingError(null), 3000)
@@ -61,9 +59,6 @@ export const SignUpPage = () => {
           {!formik.isValid && !!formik.submitCount && <Toaster color="red">Some fields are invalid</Toaster>}
           <Activity mode={submittingError ? 'visible' : 'hidden'}>
             <Toaster color="red">{submittingError}</Toaster>
-          </Activity>
-          <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
-            <Toaster color="green">Thanks for sign up!</Toaster>
           </Activity>
 
           <Button loading={formik.isSubmitting}>Sign Up</Button>
