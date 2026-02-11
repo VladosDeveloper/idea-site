@@ -2,6 +2,7 @@ import pluginJs from '@eslint/js'
 import pluginImport from 'eslint-plugin-import'
 import pluginReact from 'eslint-plugin-react'
 import globals from 'globals'
+
 import tseslint from 'typescript-eslint'
 
 export default [
@@ -139,7 +140,7 @@ export default [
       'import/no-named-as-default-member': 'off',
 
       // === Общие JavaScript правила ===
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
       'no-debugger': 'warn',
       'no-alert': 'warn',
       curly: ['error', 'all'],

@@ -14,6 +14,7 @@ import { trpc } from '@/lib/trpc.tsx'
 
 export const SignInPage = () => {
   const [submittingError, setSubmittingError] = useState<string | null>(null)
+  const trpcUtils = trpc.useUtils()
   const signIn = trpc.signIn.useMutation()
   const navigate = useNavigate()
 
@@ -29,6 +30,7 @@ export const SignInPage = () => {
       try {
         const { token } = await signIn.mutateAsync(values)
         Cookies.set('token', token, { expires: 9999999 })
+        void (await trpcUtils.invalidate())
         void navigate(getAllIdeasRoute())
       } catch (e: any) {
         setSubmittingError(e.message)

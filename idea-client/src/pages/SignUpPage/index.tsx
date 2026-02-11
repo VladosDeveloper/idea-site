@@ -26,6 +26,7 @@ type SignUpInputFormData = z.infer<typeof signUpSubmitFormData>
 
 export const SignUpPage = () => {
   const [submittingError, setSubmittingError] = useState<string | null>(null)
+  const trpcUtils = trpc.useUtils()
   const signUp = trpc.signUp.useMutation()
   const navigate = useNavigate()
 
@@ -41,6 +42,7 @@ export const SignUpPage = () => {
     onSubmit: async (values) => {
       try {
         await signUp.mutateAsync(values)
+        void (await trpcUtils.invalidate())
         void navigate(getSignInRoute())
       } catch (e: any) {
         setSubmittingError(e.message)
