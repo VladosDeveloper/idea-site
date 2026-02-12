@@ -13,6 +13,7 @@ export const updateIdeaTrpcRoute = trpc.procedure.input(zUpdateIdeaTrpcInput).mu
       id: ideaId,
     },
   })
+
   if (!exIdea) {
     throw new Error('NOT_FOUND')
   }
@@ -37,7 +38,7 @@ export const updateIdeaTrpcRoute = trpc.procedure.input(zUpdateIdeaTrpcInput).mu
 
   await ctx.prisma.idea.update({
     where: {
-      id: input.ideaId,
+      id: ideaId,
     },
     data: { ...ideaNick },
   })

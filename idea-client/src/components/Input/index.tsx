@@ -21,22 +21,21 @@ const InputComponent = <T extends ElementType = 'input'>({
   type = 'text',
 }: InputProps<T>) => {
   const Component = as || 'input'
+  const value = formik.values[inputTitle]
 
-  const value = formik.values[label]
-
-  const error = formik.errors[label] as string | undefined
-  const touched = formik.touched[label]
+  const error = formik.errors[inputTitle] as string | undefined
+  const touched = formik.touched[inputTitle]
   const invalid = !!error && !!touched
   const disabled = formik.isSubmitting
 
   return (
     <div className={cn({ [styles.field]: true, [styles.disabled]: disabled })}>
-      <label htmlFor={label}>{inputTitle}</label>
+      <label htmlFor={label}>{label}</label>
       <br />
       <Component
         {...(Component === 'input' ? { type } : {})}
         onChange={formik.handleChange}
-        onBlur={() => void formik.setFieldTouched(label)}
+        onBlur={() => void formik.setFieldTouched(inputTitle)}
         value={value}
         style={{ maxWidth }}
         className={cn({
@@ -44,7 +43,7 @@ const InputComponent = <T extends ElementType = 'input'>({
           [styles.invalid]: invalid,
           [styles.textarea]: Component === 'textarea',
         })}
-        name={label}
+        name={inputTitle}
         id={label}
         disabled={disabled}
       />

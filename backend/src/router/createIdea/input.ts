@@ -7,5 +7,5 @@ export const zCreateIdeaTrpcInput = z.object({
     .min(1)
     .regex(/^[a-z0-9-]+$/, { message: 'Nick may contain only lowercase letters, numbers and dashes' }),
   description: z.string({ message: 'Description is required' }).min(1),
-  text: z.string({ message: 'Text is required' }).min(100, { message: 'Text should be at least 100 characters long' }),
+  text: z.string({ message: 'Text is required' }).min(10, { message: 'Text should be at least 10 characters long' }),
 })
