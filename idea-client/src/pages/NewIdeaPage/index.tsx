@@ -46,10 +46,10 @@ export const NewIdeaPage = () => {
     <Segment title="New Idea">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
-          <Input label="name" inputTitle="Name" formik={formik} />
-          <Input label="nick" inputTitle="Nick" formik={formik} />
-          <Input label="description" inputTitle="Description" formik={formik} />
-          <Input label="text" inputTitle="Text" as="textarea" formik={formik} />
+          <Input label="name" inputValue="Name" formik={formik} />
+          <Input label="nick" inputValue="Nick" formik={formik} />
+          <Input label="description" inputValue="Description" formik={formik} />
+          <Input label="text" inputValue="Text" as="textarea" formik={formik} />
 
           <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
             <Toaster color={'green'}>

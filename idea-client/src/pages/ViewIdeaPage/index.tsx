@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { format } from 'date-fns/format'
 import { useParams } from 'react-router-dom'
 import { Segment } from '@/components/segment'
@@ -7,28 +8,43 @@ import styles from './index.module.scss'
 
 export const ViewIdeaPage = () => {
   const { ideaNick } = useParams() as ViewIdeaRouteParams
+  const [isAuthor, setIsAuthor] = useState(true)
 
-  const { data, error, isLoading, isFetching, isError } = trpc.getIdea.useQuery({ ideaNick })
+  const ideaQuery = trpc.getIdea.useQuery({ ideaNick })
+  const meQuery = trpc.getMe.useQuery()
 
-  if (isLoading || isFetching) {
+  const idea = ideaQuery.data?.idea
+  const me = meQuery.data?.me
+
+  useEffect(() => {
+    if (idea && me?.id !== idea.authorId) {
+      setIsAuthor(false)
+    }
+  }, [me, idea])
+
+  if (ideaQuery.isLoading || meQuery.isLoading || ideaQuery.isFetching || meQuery.isFetching) {
     return <span>loading...</span>
   }
 
-  if (isError) {
-    return <span>error... {error.message}</span>
+  if (ideaQuery.isError) {
+    return <span>error... {ideaQuery.error.message}</span>
   }
 
-  if (!data?.idea) {
-    return <span>Idea was not found</span>
+  if (meQuery.isError) {
+    return <span>error... {meQuery.error.message}</span>
+  }
+
+  if (!idea) {
+    return <span>Idea not found</span>
   }
 
   return (
-    <Segment title={data.idea.name} description={data.idea.description}>
-      <div className={styles.createdAt}>Created at: {format(data.idea.createdAt, 'dd.MM.yyyy')}</div>
+    <Segment title={idea.name} description={idea.description} editMode={isAuthor}>
+      <div className={styles.createdAt}>Created at: {format(idea.createdAt, 'dd.MM.yyyy')}</div>
       <div className={styles.author}>
-        Author: <span>{data.idea.author.nick}</span>
+        Author: <span>{idea.author.nick}</span>
       </div>
-      <div className={styles.text} dangerouslySetInnerHTML={{ __html: data.idea.text }} />
+      <div className={styles.text} dangerouslySetInnerHTML={{ __html: idea.text }} />
     </Segment>
   )
 }

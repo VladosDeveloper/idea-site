@@ -39,10 +39,10 @@ const EditIdeaComponent = ({ idea }: { idea: NonNullable<TrpcRouterOutput['getId
     <Segment title={`Edit Idea: ${idea.nick}`}>
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
-          <Input label="Name" inputTitle="name" formik={formik} />
-          <Input label="Nick" inputTitle="nick" formik={formik} />
-          <Input label="Description" inputTitle="description" maxWidth={500} formik={formik} />
-          <Input label="Text" inputTitle="text" formik={formik} as="textarea" />
+          <Input label="Name" inputValue="name" formik={formik} />
+          <Input label="Nick" inputValue="nick" formik={formik} />
+          <Input label="Description" inputValue="description" maxWidth={500} formik={formik} />
+          <Input label="Text" inputValue="text" formik={formik} as="textarea" />
           {!formik.isValid && !!formik.submitCount && <Toaster color="red">Some fields are invalid</Toaster>}
           {submittingError && <Toaster color="red">{submittingError}</Toaster>}
           <Button loading={formik.isSubmitting}>Update Idea</Button>

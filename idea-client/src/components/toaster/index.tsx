@@ -1,8 +1,8 @@
-import cn from 'classnames'
 import { type ReactNode, useEffect, useState } from 'react'
+import cn from 'classnames'
 import styles from './index.module.scss'
 
-type Props = {
+export type Props = {
   color: 'red' | 'green'
   children?: ReactNode
 }

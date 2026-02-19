@@ -55,9 +55,9 @@ export const SignUpPage = () => {
     <Segment title="Sign Up">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
-          <Input label="nick" inputTitle="Nick" formik={formik} />
-          <Input label="password" inputTitle="Password" type="password" formik={formik} />
-          <Input label="passwordAgain" inputTitle="Password again" type="password" formik={formik} />
+          <Input label="Nick" inputValue="nick" formik={formik} />
+          <Input label="Password" inputValue="password" type="password" formik={formik} />
+          <Input label="Password again" inputValue="passwordAgain" type="password" formik={formik} />
           {!formik.isValid && !!formik.submitCount && <Toaster color="red">Some fields are invalid</Toaster>}
           <Activity mode={submittingError ? 'visible' : 'hidden'}>
             <Toaster color="red">{submittingError}</Toaster>

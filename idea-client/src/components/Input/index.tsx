@@ -5,7 +5,7 @@ import type { FormikProps } from 'formik'
 
 type InputProps<T extends ElementType> = {
   label: string
-  inputTitle: string
+  inputValue: string
   as?: T
   maxWidth?: number
   formik: FormikProps<any>
@@ -14,17 +14,17 @@ type InputProps<T extends ElementType> = {
 
 const InputComponent = <T extends ElementType = 'input'>({
   formik,
-  inputTitle,
+  inputValue,
   maxWidth,
   label,
   as,
   type = 'text',
 }: InputProps<T>) => {
   const Component = as || 'input'
-  const value = formik.values[inputTitle]
+  const formikValue = formik.values[inputValue]
 
-  const error = formik.errors[inputTitle] as string | undefined
-  const touched = formik.touched[inputTitle]
+  const error = formik.errors[inputValue] as string | undefined
+  const touched = formik.touched[inputValue]
   const invalid = !!error && !!touched
   const disabled = formik.isSubmitting
 
@@ -35,15 +35,15 @@ const InputComponent = <T extends ElementType = 'input'>({
       <Component
         {...(Component === 'input' ? { type } : {})}
         onChange={formik.handleChange}
-        onBlur={() => void formik.setFieldTouched(inputTitle)}
-        value={value}
+        onBlur={() => void formik.setFieldTouched(formikValue)}
+        value={formikValue}
         style={{ maxWidth }}
         className={cn({
           [styles.input]: Component === 'input',
           [styles.invalid]: invalid,
           [styles.textarea]: Component === 'textarea',
         })}
-        name={inputTitle}
+        name={inputValue}
         id={label}
         disabled={disabled}
       />
