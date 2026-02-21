@@ -17,12 +17,15 @@ const paths: IPath[] = [
   { to: routes.getSignOutRoute(), text: 'Log out' },
 ]
 
+const allowedPathsForNoName = ['Sign In', 'Sign Up']
+const allowedPathsForAuthUser = ['Log out', 'Add Idea']
+
 const newPaths = (exUser: Pick<User, 'id' | 'nick'> | null | undefined, routes: IPath[]): IPath[] => {
   if (exUser) {
-    return routes.filter((rout) => rout.text !== 'Sign In' && rout.text !== 'Sign Up')
+    return routes.filter((rout) => !allowedPathsForNoName.includes(rout.text))
   }
 
-  return routes.filter((rout) => rout.text !== 'Log out')
+  return routes.filter((rout) => !allowedPathsForAuthUser.includes(rout.text))
 }
 
 export const Layout = () => {

@@ -1,69 +1,49 @@
-import { Activity, useState } from 'react'
+import { Activity } from 'react'
 import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/createIdea/input'
-import { useFormik } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
 import { type z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
+import { useForm } from '@/lib/form.tsx'
 import { trpc } from '@/lib/trpc.tsx'
 
 export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
 
 export const NewIdeaPage = () => {
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false)
-  const [submittingError, setSubmittingError] = useState<string | null>(null)
   const createIdea = trpc.createIdea.useMutation()
 
-  const formik = useFormik<SubmitFormData>({
+  const { formik, alertProps, buttonProps, isHidden } = useForm({
     initialValues: {
       name: '',
       nick: '',
       description: '',
       text: '',
     },
-    validate: withZodSchema(zCreateIdeaTrpcInput) as unknown as (
-      values: SubmitFormData
-    ) => Partial<Record<keyof SubmitFormData, string>>,
+    validationSchema: zCreateIdeaTrpcInput,
     onSubmit: async (values) => {
-      try {
-        await createIdea.mutateAsync(values)
-        formik.resetForm()
-        setSuccessMessageVisible(true)
-        setTimeout(() => {
-          setSuccessMessageVisible(false)
-        }, 3000)
-      } catch (e: any) {
-        setSubmittingError(e.message)
-        setTimeout(() => setSubmittingError(null), 3000)
-      }
+      await createIdea.mutateAsync(values)
     },
+    resetOnSuccess: true,
+    successMessage: 'Idea was successfully created',
+    showValidationAlert: true,
   })
 
   return (
     <Segment title="New Idea">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
-          <Input label="name" inputValue="Name" formik={formik} />
-          <Input label="nick" inputValue="Nick" formik={formik} />
-          <Input label="description" inputValue="Description" formik={formik} />
-          <Input label="text" inputValue="Text" as="textarea" formik={formik} />
+          <Input label="Name" inputValue="name" formik={formik} />
+          <Input label="Nick" inputValue="nick" formik={formik} />
+          <Input label="Description" inputValue="description" formik={formik} />
+          <Input label="Text" inputValue="text" as="textarea" formik={formik} />
 
-          <Activity mode={successMessageVisible ? 'visible' : 'hidden'}>
-            <Toaster color={'green'}>
-              <p>Idea was successfully created</p>
-            </Toaster>
+          <Activity mode={isHidden ? 'hidden' : 'visible'}>
+            <Toaster {...alertProps} />
           </Activity>
 
-          <Activity mode={!!submittingError ? 'visible' : 'hidden'}>
-            <Toaster color={'red'}>
-              <p>{submittingError}</p>
-            </Toaster>
-          </Activity>
-
-          <Button loading={formik.isSubmitting}>Create Idea</Button>
+          <Button {...buttonProps}>Create Idea</Button>
         </FormItems>
       </form>
     </Segment>
