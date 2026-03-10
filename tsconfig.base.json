@@ -11,15 +11,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true, // важно для монорепо - не генерируем файлы в корне
+    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false,
     "incremental": true
   },
-  "include": [
-    "src",
-    "eslint.config.js" // ← добавить сюда
-  ],
+  "include": ["src", "eslint.config.js"],
   "exclude": ["node_modules", "dist", "build", "coverage"]
 }

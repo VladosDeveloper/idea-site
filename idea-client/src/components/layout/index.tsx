@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom'
-import { trpc } from '@/lib/trpc.tsx'
+import { useMe } from '@/lib/ctx.tsx'
 import * as routes from '../../lib/routes'
 import styles from './index.module.scss'
 import type { User } from '@idea-site/backend/src/prisma/generated/prisma-client'
@@ -29,12 +29,8 @@ const newPaths = (exUser: Pick<User, 'id' | 'nick'> | null | undefined, routes: 
 }
 
 export const Layout = () => {
-  const { data, isLoading } = trpc.getMe.useQuery()
-  const routes = newPaths(data?.me, paths)
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const me = useMe()
+  const routes = newPaths(me, paths)
 
   return (
     <div className={styles.layout}>
@@ -44,7 +40,7 @@ export const Layout = () => {
           {routes.map((path, i) => (
             <li key={i} className={styles.item}>
               <Link className={styles.link} to={path.to}>
-                {path.text} {data?.me?.nick && path.text === 'Log out' && data.me.nick}
+                {path.text} {me?.nick && path.text === 'Log out' && me.nick}
               </Link>
             </li>
           ))}
