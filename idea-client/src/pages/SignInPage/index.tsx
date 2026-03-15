@@ -1,20 +1,20 @@
 import { Activity } from 'react'
 import { zSignInTrpcInput } from '@idea-site/backend/src/router/signIn/input'
 import Cookies from 'js-cookie'
-import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
 import { useForm } from '@/lib/form.tsx'
-import { getAllIdeasRoute } from '@/lib/routes.ts'
+import { withPageWrapper } from '@/lib/pageWrapper'
 import { trpc } from '@/lib/trpc.tsx'
 
-export const SignInPage = () => {
+export const SignInPage = withPageWrapper({
+  redirectAuthorized: true,
+})(() => {
   const trpcUtils = trpc.useUtils()
   const signIn = trpc.signIn.useMutation()
-  const navigate = useNavigate()
 
   const { formik, alertProps, buttonProps, isHidden } = useForm({
     initialValues: {
@@ -26,7 +26,6 @@ export const SignInPage = () => {
       const { token } = await signIn.mutateAsync(values)
       Cookies.set('token', token, { expires: 9999999 })
       void (await trpcUtils.invalidate())
-      void navigate(getAllIdeasRoute())
     },
     resetOnSuccess: true,
     showValidationAlert: true,
@@ -47,4 +46,4 @@ export const SignInPage = () => {
       </form>
     </Segment>
   )
-}
+})

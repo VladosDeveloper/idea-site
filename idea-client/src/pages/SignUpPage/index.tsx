@@ -1,6 +1,5 @@
 import { Activity } from 'react'
 import { zSignUpTrpcInput } from '@idea-site/backend/src/router/signUp/input'
-import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
@@ -8,7 +7,7 @@ import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
 import { useForm } from '@/lib/form.tsx'
-import { getSignInRoute } from '@/lib/routes.ts'
+import { withPageWrapper } from '@/lib/pageWrapper'
 import { trpc } from '@/lib/trpc.tsx'
 
 const signUpSubmitFormData = zSignUpTrpcInput.extend({ passwordAgain: z.string().min(1) }).superRefine((arg, ctx) => {
@@ -21,10 +20,11 @@ const signUpSubmitFormData = zSignUpTrpcInput.extend({ passwordAgain: z.string()
   }
 })
 
-export const SignUpPage = () => {
+export const SignUpPage = withPageWrapper({
+  redirectAuthorized: true,
+})(() => {
   const trpcUtils = trpc.useUtils()
   const signUp = trpc.signUp.useMutation()
-  const navigate = useNavigate()
 
   const { formik, alertProps, buttonProps, isHidden } = useForm({
     initialValues: {
@@ -36,7 +36,6 @@ export const SignUpPage = () => {
     onSubmit: async (values) => {
       await signUp.mutateAsync(values)
       void (await trpcUtils.invalidate())
-      void navigate(getSignInRoute())
     },
     resetOnSuccess: true,
     showValidationAlert: true,
@@ -58,4 +57,4 @@ export const SignUpPage = () => {
       </form>
     </Segment>
   )
-}
+})

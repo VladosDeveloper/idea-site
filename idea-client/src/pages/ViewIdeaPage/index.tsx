@@ -1,42 +1,24 @@
-import { useEffect, useState } from 'react'
 import { format } from 'date-fns/format'
 import { useParams } from 'react-router-dom'
 import { Segment } from '@/components/segment'
+import { withPageWrapper } from '@/lib/pageWrapper'
 import type { ViewIdeaRouteParams } from '@/lib/routes.ts'
-import { trpc } from '../../lib/trpc.tsx'
+import { trpc } from '@/lib/trpc'
 import styles from './index.module.scss'
 
-export const ViewIdeaPage = () => {
-  const { ideaNick } = useParams() as ViewIdeaRouteParams
-  const [isAuthor, setIsAuthor] = useState(true)
-
-  const ideaQuery = trpc.getIdea.useQuery({ ideaNick })
-  const meQuery = trpc.getMe.useQuery()
-
-  const idea = ideaQuery.data?.idea
-  const me = meQuery.data?.me
-
-  useEffect(() => {
-    if (idea && me?.id !== idea.authorId) {
-      setIsAuthor(false)
-    }
-  }, [me, idea])
-
-  if (ideaQuery.isLoading || meQuery.isLoading || ideaQuery.isFetching || meQuery.isFetching) {
-    return <span>loading...</span>
-  }
-
-  if (ideaQuery.isError) {
-    return <span>error... {ideaQuery.error.message}</span>
-  }
-
-  if (meQuery.isError) {
-    return <span>error... {meQuery.error.message}</span>
-  }
-
-  if (!idea) {
-    return <span>Idea not found</span>
-  }
+export const ViewIdeaPage = withPageWrapper({
+  useQuery: () => {
+    const { ideaNick } = useParams() as ViewIdeaRouteParams
+    return trpc.getIdea.useQuery({ ideaNick })
+  },
+  checkExists: ({ queryResult }) => !!queryResult.data.idea,
+  checkExistsMessage: 'Idea not found',
+  setProps: ({ queryResult, ctx }) => ({
+    idea: queryResult.data.idea!,
+    me: ctx.me,
+  }),
+})(({ idea, me }) => {
+  const isAuthor = me?.id === idea.authorId
 
   return (
     <Segment title={idea.name} description={idea.description} editMode={isAuthor}>
@@ -47,4 +29,4 @@ export const ViewIdeaPage = () => {
       <div className={styles.text} dangerouslySetInnerHTML={{ __html: idea.text }} />
     </Segment>
   )
-}
+})

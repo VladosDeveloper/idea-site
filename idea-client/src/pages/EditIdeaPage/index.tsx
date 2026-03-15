@@ -8,11 +8,24 @@ import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
 import { useForm } from '@/lib/form.tsx'
+import { withPageWrapper } from '@/lib/pageWrapper'
 import { type EditIdeaRouteParams, getViewIdeaRoute } from '@/lib/routes'
 import { trpc } from '@/lib/trpc'
-import type { TrpcRouterOutput } from '@idea-site/backend/src/router'
 
-const EditIdeaComponent = ({ idea }: { idea: NonNullable<TrpcRouterOutput['getIdea']['idea']> }) => {
+export const EditIdeaPage = withPageWrapper({
+  authorizedOnly: true,
+  useQuery: () => {
+    const { ideaNick } = useParams() as EditIdeaRouteParams
+    return trpc.getIdea.useQuery({ ideaNick })
+  },
+  checkExists: ({ queryResult }) => !!queryResult.data.idea,
+  checkExistsMessage: 'Idea not found',
+  checkAccess: ({ queryResult, ctx }) => !!ctx.me && ctx.me.id === queryResult.data.idea?.authorId,
+  checkAccessMessage: 'An idea can only be edit by the author',
+  setProps: ({ queryResult }) => ({
+    idea: queryResult.data.idea!,
+  }),
+})(({ idea }) => {
   const navigate = useNavigate()
   const updateIdea = trpc.updateIdea.useMutation()
   const { formik, buttonProps, alertProps, isHidden } = useForm({
@@ -43,39 +56,4 @@ const EditIdeaComponent = ({ idea }: { idea: NonNullable<TrpcRouterOutput['getId
       </form>
     </Segment>
   )
-}
-
-export const EditIdeaPage = () => {
-  const { ideaNick } = useParams() as EditIdeaRouteParams
-  const getIdeaResult = trpc.getIdea.useQuery({ ideaNick })
-  const getMeResult = trpc.getMe.useQuery()
-
-  if (getIdeaResult.isLoading || getMeResult.isLoading || getIdeaResult.isFetching || getMeResult.isFetching) {
-    return <span>Loading...</span>
-  }
-
-  if (getIdeaResult.isError) {
-    return <span>Error: {getIdeaResult.error.message}</span>
-  }
-
-  if (getMeResult.isError) {
-    return <span>Error: {getMeResult.error.message}</span>
-  }
-
-  const idea = getIdeaResult.data?.idea
-  const me = getMeResult.data?.me
-
-  if (!idea) {
-    return <span>Idea not found</span>
-  }
-
-  if (!me) {
-    return <span>You're unauthorized</span>
-  }
-
-  if (me.id !== idea.authorId) {
-    return <span>You're can't edit this idea</span>
-  }
-
-  return <EditIdeaComponent idea={idea} />
-}
+})

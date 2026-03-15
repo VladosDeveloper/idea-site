@@ -7,11 +7,14 @@ import { Input } from '@/components/Input'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
 import { useForm } from '@/lib/form.tsx'
+import { withPageWrapper } from '@/lib/pageWrapper'
 import { trpc } from '@/lib/trpc.tsx'
 
 export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
 
-export const NewIdeaPage = () => {
+export const NewIdeaPage = withPageWrapper({
+  authorizedOnly: true,
+})(() => {
   const createIdea = trpc.createIdea.useMutation()
 
   const { formik, alertProps, buttonProps, isHidden } = useForm({
@@ -48,4 +51,4 @@ export const NewIdeaPage = () => {
       </form>
     </Segment>
   )
-}
+})
