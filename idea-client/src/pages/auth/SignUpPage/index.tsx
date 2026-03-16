@@ -1,5 +1,5 @@
 import { Activity } from 'react'
-import { zSignUpTrpcInput } from '@idea-site/backend/src/router/signUp/input'
+import { zSignUpTrpcInput } from '@idea-site/backend/src/router/auth/signUp/input'
 import { z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'

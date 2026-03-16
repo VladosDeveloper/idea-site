@@ -1,5 +1,5 @@
 import { Activity } from 'react'
-import { zUpdateIdeaTrpcInput } from '@idea-site/backend/src/router/updateIdea/input'
+import { zUpdateIdeaTrpcInput } from '@idea-site/backend/src/router/ideas/updateIdea/input'
 import { pick } from 'lodash'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'

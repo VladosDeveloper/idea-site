@@ -1,6 +1,6 @@
 import { Activity } from 'react'
-import { zSignInTrpcInput } from '@idea-site/backend/src/router/signIn/input'
-import Cookies from 'js-cookie'
+import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/ideas/createIdea/input'
+import { type z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
@@ -10,38 +10,43 @@ import { useForm } from '@/lib/form.tsx'
 import { withPageWrapper } from '@/lib/pageWrapper'
 import { trpc } from '@/lib/trpc.tsx'
 
-export const SignInPage = withPageWrapper({
-  redirectAuthorized: true,
+export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
+
+export const NewIdeaPage = withPageWrapper({
+  authorizedOnly: true,
 })(() => {
-  const trpcUtils = trpc.useUtils()
-  const signIn = trpc.signIn.useMutation()
+  const createIdea = trpc.createIdea.useMutation()
 
   const { formik, alertProps, buttonProps, isHidden } = useForm({
     initialValues: {
+      name: '',
       nick: '',
-      password: '',
+      description: '',
+      text: '',
     },
-    validationSchema: zSignInTrpcInput,
+    validationSchema: zCreateIdeaTrpcInput,
     onSubmit: async (values) => {
-      const { token } = await signIn.mutateAsync(values)
-      Cookies.set('token', token, { expires: 9999999 })
-      void (await trpcUtils.invalidate())
+      await createIdea.mutateAsync(values)
     },
     resetOnSuccess: true,
+    successMessage: 'Idea was successfully created',
     showValidationAlert: true,
   })
 
   return (
-    <Segment title="Sign In">
+    <Segment title="New Idea">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
+          <Input label="Name" inputValue="name" formik={formik} />
           <Input label="Nick" inputValue="nick" formik={formik} />
-          <Input label="Password" inputValue="password" type="password" formik={formik} />
+          <Input label="Description" inputValue="description" formik={formik} />
+          <Input label="Text" inputValue="text" as="textarea" formik={formik} />
+
           <Activity mode={isHidden ? 'hidden' : 'visible'}>
             <Toaster {...alertProps} />
           </Activity>
 
-          <Button {...buttonProps}>Sign In</Button>
+          <Button {...buttonProps}>Create Idea</Button>
         </FormItems>
       </form>
     </Segment>
