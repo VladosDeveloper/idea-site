@@ -11,10 +11,8 @@ export const ViewIdeaPage = withPageWrapper({
     const { ideaNick } = useParams() as ViewIdeaRouteParams
     return trpc.getIdea.useQuery({ ideaNick })
   },
-  checkExists: ({ queryResult }) => !!queryResult.data.idea,
-  checkExistsMessage: 'Idea not found',
-  setProps: ({ queryResult, ctx }) => ({
-    idea: queryResult.data.idea!,
+  setProps: ({ queryResult, checkExists, ctx }) => ({
+    idea: checkExists(queryResult.data.idea, 'Idea not found'),
     me: ctx.me,
   }),
 })(({ idea, me }) => {
