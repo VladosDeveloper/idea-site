@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AppContextProvider } from '@/lib/ctx.tsx'
+import { EditProfilePage } from '@/pages/auth/EditProfilePage'
 import { SignInPage } from '@/pages/auth/SignInPage'
 import { SignOutPage } from '@/pages/auth/SignOutPage'
 import { SignUpPage } from '@/pages/auth/SignUpPage'
@@ -28,6 +29,7 @@ export const App = () => (
             <Route path={routes.getSignInRoute()} element={<SignInPage />} />
             <Route path={routes.getEditIdeaRoute(routes.editIdeaRouteParams)} element={<EditIdeaPage />} />
             <Route path={routes.getEditIdeaRoute(routes.editIdeaRouteParams)} element={<EditIdeaPage />} />
+            <Route path={routes.getUpdateProfileRoute()} element={<EditProfilePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

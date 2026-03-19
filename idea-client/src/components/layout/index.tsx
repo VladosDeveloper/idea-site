@@ -10,6 +10,7 @@ type IPath = {
 }
 
 const paths: IPath[] = [
+  { to: routes.getUpdateProfileRoute(), text: 'Edit profile' },
   { to: routes.getAllIdeasRoute(), text: 'All Ideas' },
   { to: routes.createNewIdeaRoute(), text: 'Add Idea' },
   { to: routes.getSignUpRoute(), text: 'Sign Up' },
@@ -18,7 +19,7 @@ const paths: IPath[] = [
 ]
 
 const allowedPathsForNoName = ['Sign In', 'Sign Up']
-const allowedPathsForAuthUser = ['Log out', 'Add Idea']
+const allowedPathsForAuthUser = ['Log out', 'Add Idea', 'Edit profile']
 
 const newPaths = (exUser: Pick<User, 'id' | 'nick'> | null | undefined, routes: IPath[]): IPath[] => {
   if (exUser) {

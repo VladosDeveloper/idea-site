@@ -65,6 +65,7 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
     }, 3000)
     return
   }, [])
+
   const alertProps = useMemo<ToasterProps>(() => {
     if (submittingError) {
       showToaster()
