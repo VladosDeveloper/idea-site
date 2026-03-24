@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": true,
     "isolatedModules": false,
-    "lib": ["ES2021"],
+    "lib": ["ES2022"],
     "module": "commonjs",
     "moduleResolution": "Node",
     "noFallthroughCasesInSwitch": true,

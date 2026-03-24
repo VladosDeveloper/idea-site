@@ -1,4 +1,3 @@
-import { Activity } from 'react'
 import { zUpdateProfileTrpcInput } from '@idea-site/backend/src/router/auth/updateProfile/input'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
@@ -11,7 +10,7 @@ import type { TrpcRouterOutput } from '@idea-site/backend/src/router'
 export const UpdateProfileInfo = ({ me }: { me: NonNullable<TrpcRouterOutput['getMe']['me']> }) => {
   const trpcUtils = trpc.useUtils()
   const updateProfile = trpc.updateProfile.useMutation()
-  const { formik, alertProps, buttonProps, isHidden } = useForm({
+  const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       nick: me.nick,
       name: me.name,
@@ -30,9 +29,7 @@ export const UpdateProfileInfo = ({ me }: { me: NonNullable<TrpcRouterOutput['ge
       <FormItems>
         <Input label="Nick" inputValue="nick" formik={formik} />
         <Input label="Name" inputValue="name" formik={formik} />
-        <Activity mode={isHidden ? 'hidden' : 'visible'}>
-          <Toaster {...alertProps} />
-        </Activity>
+        {updateProfile.isError || (updateProfile.isSuccess && <Toaster {...alertProps} />)}
         <Button {...buttonProps}>Update profile</Button>
       </FormItems>
     </form>
