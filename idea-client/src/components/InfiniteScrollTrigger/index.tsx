@@ -1,5 +1,6 @@
 // components/InfiniteScrollTrigger.tsx
 import type { ReactNode } from 'react'
+import { Loader } from '@/components/Loader'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 interface InfiniteScrollTriggerProps {
@@ -15,7 +16,7 @@ export function InfiniteScrollTrigger({
   onLoadMore,
   isLoading,
   hasNextPage,
-  loader = <div className="loader">Loading...</div>,
+  loader = <Loader type="section" />,
   endMessage = <div className="end-message">✨ You've seen everything ✨</div>,
   rootMargin = '200px',
 }: InfiniteScrollTriggerProps) {

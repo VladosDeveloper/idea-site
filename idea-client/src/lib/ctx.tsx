@@ -1,4 +1,5 @@
 import { createContext, type ReactNode, useContext } from 'react'
+import { Loader } from '@/components/Loader'
 import { trpc } from '@/lib/trpc.tsx'
 import type { TrpcRouterOutput } from '@idea-site/backend/src/router'
 
@@ -15,7 +16,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppReactContext.Provider value={{ me: data?.me || null }}>
-      {isLoading || isFetching ? <p>Loading...</p> : isError ? <p>Error: {error.message}</p> : children}
+      {isLoading || isFetching ? <Loader type="page" /> : isError ? <p>Error: {error.message}</p> : children}
     </AppReactContext.Provider>
   )
 }

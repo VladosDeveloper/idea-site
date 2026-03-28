@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { InfiniteScrollTrigger } from '@/components/InfiniteScrollTrigger'
+import { Loader } from '@/components/Loader'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
 import { getViewIdeaRoute } from '@/lib/routes.ts'
@@ -27,7 +28,7 @@ export const ViewAllIdeasPage = () => {
   return (
     <Segment title={'All Ideas'}>
       {isLoading || isRefetching ? (
-        <span>loading...</span>
+        <Loader type="section" />
       ) : isError ? (
         <Toaster color="red">{error.message}</Toaster>
       ) : (
@@ -51,7 +52,6 @@ export const ViewAllIdeasPage = () => {
         onLoadMore={() => loadMore()}
         isLoading={isFetchingNextPage}
         hasNextPage={hasNextPage}
-        loader={<div className="loader">Loading more...</div>}
         endMessage={<div className="end-message">No more ideas to show</div>}
       />
     </Segment>

@@ -1,5 +1,6 @@
 import { type FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Loader } from '@/components/Loader'
 import { type AppContext, useAppContext } from '@/lib/ctx'
 import { getAllIdeasRoute } from '@/lib/routes'
 import { NotFoundPage } from '@/pages/other/NotFoundPage'
@@ -89,7 +90,7 @@ const PageWrapper = <TProps extends Props = {}, TQueryResult extends QueryResult
   }, [redirectNeeded, redirectAuthorized])
 
   if (queryResult?.isLoading || queryResult?.isFetching || redirectNeeded) {
-    return <span>Loading...</span>
+    return <Loader type="section" />
   }
 
   if (queryResult?.isError) {
