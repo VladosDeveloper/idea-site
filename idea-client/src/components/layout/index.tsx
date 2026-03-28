@@ -28,7 +28,6 @@ const newPaths = (exUser: Pick<User, 'id' | 'nick'> | null | undefined, routes: 
 
   return routes.filter((rout) => !allowedPathsForAuthUser.includes(rout.text))
 }
-
 export const Layout = () => {
   const me = useMe()
   const routes = newPaths(me, paths)

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { InfiniteScrollTrigger } from '@/components/InfiniteScrollTrigger'
 import { Segment } from '@/components/segment'
 import { Toaster } from '@/components/toaster'
 import { getViewIdeaRoute } from '@/lib/routes.ts'
@@ -16,6 +17,13 @@ export const ViewAllIdeasPage = () => {
       }
     )
 
+  const ideas = data?.pages.flatMap((page) => page.ideas)
+  const loadMore = () => {
+    if (!isFetchingNextPage && hasNextPage) {
+      fetchNextPage()
+    }
+  }
+
   return (
     <Segment title={'All Ideas'}>
       {isLoading || isRefetching ? (
@@ -24,35 +32,28 @@ export const ViewAllIdeasPage = () => {
         <Toaster color="red">{error.message}</Toaster>
       ) : (
         <div className={styles.ideas}>
-          {data?.pages
-            .flatMap((page) => page.ideas)
-            .map((idea) => (
-              <div className={styles.idea} key={idea.nick}>
-                <Segment
-                  title={
-                    <Link className={styles.ideaLink} to={getViewIdeaRoute({ ideaNick: idea.nick })}>
-                      {idea.name}
-                    </Link>
-                  }
-                  size={2}
-                  description={idea.description}
-                />
-              </div>
-            ))}
-          <div className={styles.more}>
-            {hasNextPage && !isFetchingNextPage && (
-              <button
-                onClick={() => {
-                  void fetchNextPage()
-                }}
-              >
-                Load more
-              </button>
-            )}
-            {isFetchingNextPage && <span>Loading...</span>}
-          </div>
+          {ideas?.map((idea) => (
+            <div className={styles.idea} key={idea.nick}>
+              <Segment
+                title={
+                  <Link className={styles.ideaLink} to={getViewIdeaRoute({ ideaNick: idea.nick })}>
+                    {idea.name}
+                  </Link>
+                }
+                size={2}
+                description={idea.description}
+              />
+            </div>
+          ))}
         </div>
       )}
+      <InfiniteScrollTrigger
+        onLoadMore={() => loadMore()}
+        isLoading={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+        loader={<div className="loader">Loading more...</div>}
+        endMessage={<div className="end-message">No more ideas to show</div>}
+      />
     </Segment>
   )
 }
