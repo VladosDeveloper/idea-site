@@ -4,6 +4,7 @@ import { Segment } from '@/components/segment'
 import { withPageWrapper } from '@/lib/pageWrapper'
 import type { ViewIdeaRouteParams } from '@/lib/routes.ts'
 import { trpc } from '@/lib/trpc'
+import { LikeButton } from '@/pages/ideas/ViewIdeaPage/LikeButton'
 import styles from './index.module.scss'
 
 export const ViewIdeaPage = withPageWrapper({
@@ -15,6 +16,7 @@ export const ViewIdeaPage = withPageWrapper({
     idea: checkExists(queryResult.data.idea, 'Idea not found'),
     me: ctx.me,
   }),
+  showLoaderOnFetching: false,
 })(({ idea, me }) => {
   const isAuthor = me?.id === idea.authorId
 
@@ -28,6 +30,15 @@ export const ViewIdeaPage = withPageWrapper({
         </span>
       </div>
       <div className={styles.text} dangerouslySetInnerHTML={{ __html: idea.text }} />
+      <div className={styles.likes}>
+        Likes: {idea.ideasLikeCount}
+        {me && (
+          <>
+            <br />
+            <LikeButton idea={idea} />
+          </>
+        )}
+      </div>
     </Segment>
   )
 })

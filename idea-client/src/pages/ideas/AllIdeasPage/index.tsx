@@ -43,7 +43,9 @@ export const ViewAllIdeasPage = () => {
                 }
                 size={2}
                 description={idea.description}
-              />
+              >
+                Likes: {idea.likesCount}
+              </Segment>
             </div>
           ))}
         </div>
