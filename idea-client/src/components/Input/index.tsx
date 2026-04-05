@@ -7,7 +7,7 @@ type InputProps<T extends ElementType> = {
   label: string
   inputValue: string
   as?: T
-  maxWidth?: number
+  maxWidth?: string | number
   formik: FormikProps<any>
   type?: 'text' | 'password'
 }

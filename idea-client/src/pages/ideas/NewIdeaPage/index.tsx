@@ -1,6 +1,5 @@
 import { Activity } from 'react'
 import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/ideas/createIdea/input'
-import { type z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
@@ -9,8 +8,6 @@ import { Toaster } from '@/components/toaster'
 import { useForm } from '@/lib/form.tsx'
 import { withPageWrapper } from '@/lib/pageWrapper'
 import { trpc } from '@/lib/trpc.tsx'
-
-export type SubmitFormData = z.infer<typeof zCreateIdeaTrpcInput>
 
 export const NewIdeaPage = withPageWrapper({
   authorizedOnly: true,

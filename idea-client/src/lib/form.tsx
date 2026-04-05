@@ -11,7 +11,7 @@ type FormProps<TZodSchema extends z.ZodTypeAny> = {
   showValidationAlert?: boolean
   initialValues?: Partial<z.infer<TZodSchema>>
   validationSchema?: TZodSchema
-  onSubmit: (
+  onSubmit?: (
     values: z.infer<TZodSchema>,
     actions: FormikHelpers<z.infer<TZodSchema> & Record<string, any>>
   ) => Promise<any>
@@ -37,6 +37,9 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
     initialValues: (initialValues || {}) as FormikValues,
     ...(validationSchema && { validate: withZodSchema(validationSchema) }),
     onSubmit: async (values, formikHelpers) => {
+      if (!onSubmit) {
+        return
+      }
       try {
         setSubmittingError(null)
         await onSubmit(values, formikHelpers)

@@ -3,7 +3,7 @@ import cn from 'classnames'
 import styles from './index.module.scss'
 
 export type ToasterProps = {
-  color: 'red' | 'green'
+  color: 'red' | 'green' | 'brown'
   children?: ReactNode
 }
 export const Toaster = ({ color, children }: ToasterProps) => {
