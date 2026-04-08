@@ -1,9 +1,11 @@
+import { canBlockIdeas, canEditIdea } from '@idea-site/backend/src/utils/can'
 import { format } from 'date-fns/format'
 import { useParams } from 'react-router-dom'
 import { Segment } from '@/components/segment'
 import { withPageWrapper } from '@/lib/pageWrapper'
 import type { ViewIdeaRouteParams } from '@/lib/routes.ts'
 import { trpc } from '@/lib/trpc'
+import { BlockIdea } from '@/pages/ideas/ViewIdeaPage/BlockIdea'
 import { LikeButton } from '@/pages/ideas/ViewIdeaPage/LikeButton'
 import styles from './index.module.scss'
 
@@ -18,7 +20,7 @@ export const ViewIdeaPage = withPageWrapper({
   }),
   showLoaderOnFetching: false,
 })(({ idea, me }) => {
-  const isAuthor = me?.id === idea.authorId
+  const isAuthor = canEditIdea(me, idea)
 
   return (
     <Segment title={idea.name} description={idea.description} editMode={isAuthor}>
@@ -39,6 +41,11 @@ export const ViewIdeaPage = withPageWrapper({
           </>
         )}
       </div>
+      {canBlockIdeas(me) && (
+        <div className={styles.blockIdea}>
+          <BlockIdea idea={idea} />
+        </div>
+      )}
     </Segment>
   )
 })

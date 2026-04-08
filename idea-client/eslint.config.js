@@ -20,7 +20,12 @@ export default [
         {
           patterns: [
             {
-              group: ['@idea-site/backend/**', '!@idea-site/backend/**/', '!@idea-site/backend/**/input'],
+              group: [
+                '@idea-site/backend/**',
+                '!@idea-site/backend/**/',
+                '!@idea-site/backend/**/input',
+                '!@idea-site/backend/src/utils/can',
+              ],
               allowTypeImports: true,
               message: 'Only types and input schemas are allowed to be imported from backend workspace',
             },
