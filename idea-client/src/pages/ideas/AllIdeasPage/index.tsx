@@ -1,4 +1,5 @@
 import { zGetIdeasTrpcInput } from '@idea-site/backend/src/router/ideas/getIdeas/input'
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { useDebounceValue } from 'usehooks-ts'
 import { InfiniteScrollTrigger } from '@/components/InfiniteScrollTrigger'
@@ -37,6 +38,10 @@ export const ViewAllIdeasPage = () => {
 
   return (
     <Segment title={'All Ideas'}>
+      <Helmet>
+        <title>All ideas</title>
+      </Helmet>
+
       <div className={styles.filter}>
         <Input label="Search" inputValue="search" formik={formik} maxWidth="100%" />
       </div>

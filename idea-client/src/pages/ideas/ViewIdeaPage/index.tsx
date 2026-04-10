@@ -1,5 +1,6 @@
 import { canBlockIdeas, canEditIdea } from '@idea-site/backend/src/utils/can'
 import { format } from 'date-fns/format'
+import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import { Segment } from '@/components/segment'
 import { withPageWrapper } from '@/lib/pageWrapper'
@@ -24,6 +25,10 @@ export const ViewIdeaPage = withPageWrapper({
 
   return (
     <Segment title={idea.name} description={idea.description} editMode={isAuthor}>
+      <Helmet>
+        <title>Idea details</title>
+      </Helmet>
+
       <div className={styles.createdAt}>Created at: {format(idea.createdAt, 'dd.MM.yyyy')}</div>
       <div className={styles.author}>
         Author:{' '}

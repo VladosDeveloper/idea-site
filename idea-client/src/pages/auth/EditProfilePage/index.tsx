@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { Segment } from '@/components/segment'
 import { withPageWrapper } from '@/lib/pageWrapper'
 import { UpdatePassword } from '@/pages/auth/EditProfilePage/UpdatePassword'
@@ -13,6 +14,9 @@ export const EditProfilePage = withPageWrapper({
   return (
     <>
       <Segment title="Edit Profile">
+        <Helmet>
+          <title>Edit profile</title>
+        </Helmet>
         <div className={styles.container}>
           <Segment title="General" size={2}>
             <UpdateProfileInfo me={me} />

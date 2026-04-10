@@ -1,6 +1,7 @@
 import { Activity } from 'react'
 import { zSignInTrpcInput } from '@idea-site/backend/src/router/auth/signIn/input'
 import Cookies from 'js-cookie'
+import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
@@ -33,6 +34,10 @@ export const SignInPage = withPageWrapper({
 
   return (
     <Segment title="Sign In">
+      <Helmet>
+        <title>Sign In</title>
+      </Helmet>
+
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
           <Input label="Nick" inputValue="nick" formik={formik} />

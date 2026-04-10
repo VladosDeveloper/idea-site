@@ -2,6 +2,7 @@ import { Activity } from 'react'
 import { zUpdateIdeaTrpcInput } from '@idea-site/backend/src/router/ideas/updateIdea/input'
 import { canEditIdea } from '@idea-site/backend/src/utils/can'
 import { pick } from 'lodash'
+import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
@@ -43,6 +44,10 @@ export const EditIdeaPage = withPageWrapper({
 
   return (
     <Segment title={`Edit Idea: ${idea.nick}`}>
+      <Helmet>
+        <title>Edit idea</title>
+      </Helmet>
+
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
           <Input label="Name" inputValue="name" formik={formik} />

@@ -1,5 +1,6 @@
 import { Activity } from 'react'
 import { zCreateIdeaTrpcInput } from '@idea-site/backend/src/router/ideas/createIdea/input'
+import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
 import { Input } from '@/components/Input'
@@ -32,6 +33,10 @@ export const NewIdeaPage = withPageWrapper({
 
   return (
     <Segment title="New Idea">
+      <Helmet>
+        <title>Create new idea</title>
+      </Helmet>
+
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
           <Input label="Name" inputValue="name" formik={formik} />

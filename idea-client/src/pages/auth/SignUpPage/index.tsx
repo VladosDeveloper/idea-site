@@ -1,5 +1,6 @@
 import { Activity } from 'react'
 import { zSignUpTrpcInput } from '@idea-site/backend/src/router/auth/signUp/input'
+import { Helmet } from 'react-helmet-async'
 import { z } from 'zod'
 import { Button } from '@/components/Button'
 import { FormItems } from '@/components/FormItems'
@@ -43,6 +44,10 @@ export const SignUpPage = withPageWrapper({
 
   return (
     <Segment title="Sign Up">
+      <Helmet>
+        <title>Sign Up</title>
+      </Helmet>
+
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
           <Input label="Nick" inputValue="nick" formik={formik} />
