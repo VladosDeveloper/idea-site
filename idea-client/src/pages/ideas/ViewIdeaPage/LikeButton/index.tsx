@@ -1,3 +1,4 @@
+import { LikeIcon } from '@/icons/LikeIcon'
 import { trpc } from '@/lib/trpc'
 import styles from '../index.module.scss'
 import type { TrpcRouterOutput } from '@idea-site/backend/src/router'
@@ -30,7 +31,7 @@ export const LikeButton = ({ idea }: { idea: NonNullable<TrpcRouterOutput['getId
 
   return (
     <button onClick={setIdeaLikeHandler} className={styles.likeButton}>
-      {idea.isLikeByMe ? 'Unlike' : 'Like'}
+      <LikeIcon size={32} className={styles.likeIcon} name={idea.isLikeByMe ? 'likeFilled' : 'likeEmpty'} />
     </button>
   )
 }

@@ -11,6 +11,9 @@
 
   .likeButton {
     @include link;
+    background-color: transparent;
+    border: none;
+    color: red;
   }
 }
 
